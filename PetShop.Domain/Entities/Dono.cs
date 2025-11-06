@@ -1,17 +1,18 @@
-﻿using PetShot.Domain.Base;
-
+﻿
+using PetShop.Domain.Base;
 
 namespace PetshopStore.Domain.Entities
 {
     public class Dono : BaseEntity<int>
     {
+
         public string Nome { get; set; }
         public string Endereco { get; set; }
         public string Documento { get; set; }
         public string Bairro { get; set; }
         public string Cidade { get; set; }
         public int IdCidade { get; set; }
-
+        
         // Navegação
         public Cidade CidadeObj { get; set; }
         public ICollection<Pet> Pets { get; set; }

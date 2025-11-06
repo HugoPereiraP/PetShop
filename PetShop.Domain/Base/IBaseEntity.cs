@@ -1,7 +1,4 @@
-﻿
-
-
-namespace PetShop.Domain.Base
+﻿namespace PetShop.Domain.Base
 {
     public interface IBaseEntity
     {

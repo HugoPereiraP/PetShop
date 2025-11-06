@@ -1,4 +1,7 @@
-﻿using PetShot.Domain.Base;
+﻿
+
+using PetShop.Domain.Base;
+
 namespace PetshopStore.Domain.Entities
 {
     public class Cidade : BaseEntity<int>

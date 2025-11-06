@@ -1,8 +1,7 @@
 ﻿
 
-using PetShop.Domain.Base;
 
-namespace PetShot.Domain.Base
+ namespace PetShop.Domain.Base
 {
     public abstract class BaseEntity<TId> : IBaseEntity
     {
