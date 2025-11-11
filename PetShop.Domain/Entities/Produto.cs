@@ -12,6 +12,9 @@ namespace PetshopStore.Domain.Entities
         public int Quantidade { get; set; }
         public string UnidadeVenda { get; set; }
         public int IdGrupo { get; set; }
+        public int Estoque { get; set; }
+
+
 
         // Navegação
         public Grupo Grupo { get; set; }
@@ -19,7 +22,8 @@ namespace PetshopStore.Domain.Entities
 
         public Produto() { }
 
-        public Produto(int id, string nome, decimal preco, int quantidade, string unidadeVenda, int idGrupo)
+        public Produto(int id, string nome, decimal preco, int quantidade, string unidadeVenda
+            , int idGrupo, int estoque)
             : base(id)
         {
             Nome = nome;
@@ -27,6 +31,7 @@ namespace PetshopStore.Domain.Entities
             Quantidade = quantidade;
             UnidadeVenda = unidadeVenda;
             IdGrupo = idGrupo;
+            Estoque = estoque;
         }
     }
 }

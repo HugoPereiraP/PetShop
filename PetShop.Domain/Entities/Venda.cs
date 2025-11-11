@@ -15,7 +15,7 @@ namespace PetshopStore.Domain.Entities
         // Navegação
         public Dono Dono { get; set; }
         public Usuario Usuario { get; set; }
-        public ICollection<VendaItem> Itens { get; set; }
+        public ICollection<VendaItem> VendaItens { get; set; }
 
         public Venda() { }
 
