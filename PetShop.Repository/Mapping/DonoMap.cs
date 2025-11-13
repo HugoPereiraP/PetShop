@@ -26,9 +26,13 @@ namespace PetShop.Repository.Mapping
             builder.Property(d => d.Email)
                 .IsRequired()
                 .HasMaxLength(100);
+            builder.Property(d => d.Senha)
+                   .IsRequired()
+                   .HasMaxLength(100);
+
 
             //Relacionamento um Dono tem muitos Pets
-            
+
             builder.HasMany(d => d.Pets)
                 .WithOne(p => p.Dono)
                 .HasForeignKey(p => p.IdDono)

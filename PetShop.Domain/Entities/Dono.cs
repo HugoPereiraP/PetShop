@@ -10,7 +10,7 @@ namespace PetshopStore.Domain.Entities
         public string Email { get; set; }
         public string Documento { get; set; }
         public string Bairro { get; set; }
-
+        public string Senha { get; set; }
         public int IdCidade { get; set; } 
 
         //  Navegação
@@ -21,7 +21,7 @@ namespace PetshopStore.Domain.Entities
         public Dono() { }
 
         public Dono(int id, string nome, string endereco, string documento, string bairro,int idCidade, string email
-            , string telefone): base(id)
+            , string telefone,string senha   ): base(id)
         {
             Nome = nome;
             Endereco = endereco;
@@ -30,6 +30,7 @@ namespace PetshopStore.Domain.Entities
             IdCidade = idCidade;
             Email = email;
             Telefone = telefone;
+            Senha = senha;
         }
     }
 }
