@@ -41,7 +41,7 @@ namespace PetShop.Repository.Mapping
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Relacionamento um Dono tem uma Cidade
-            builder.HasOne(d => d.Cidade)
+            builder.HasOne(d => d.CidadeObj)
                 .WithMany(c => c.Donos)
                 .HasForeignKey(d => d.IdCidade)
                 .OnDelete(DeleteBehavior.Restrict);

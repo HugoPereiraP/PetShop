@@ -14,7 +14,7 @@ namespace PetshopStore.Domain.Entities
         public int IdCidade { get; set; } 
 
         //  Navegação
-        public Cidade Cidade { get; set; }
+        public Cidade CidadeObj { get; set; }
         public ICollection<Pet> Pets { get; set; }
         public ICollection<Venda> Vendas { get; set; }
 

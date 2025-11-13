@@ -1,6 +1,4 @@
-﻿
-
-using PetShop.Domain.Base;
+﻿using PetShop.Domain.Base;
 
 namespace PetshopStore.Domain.Entities
 {

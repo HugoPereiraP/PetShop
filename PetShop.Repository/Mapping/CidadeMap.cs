@@ -23,7 +23,7 @@ namespace PetShop.Repository.Mapping
                 .HasMaxLength(2);
 
             builder.HasMany(c => c.Donos)
-                .WithOne(d => d.Cidade)
+                .WithOne(d => d.CidadeObj)
                 .HasForeignKey(d => d.IdCidade)
                 .OnDelete(DeleteBehavior.Restrict);
         }
