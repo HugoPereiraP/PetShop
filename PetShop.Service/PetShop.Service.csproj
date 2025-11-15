@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PetShop.Domain\PetShop.Domain.csproj" />
+    <ProjectReference Include="..\PetShop.Helpers\PetShop.Helpers.csproj" />
     <ProjectReference Include="..\PetShop.Repository\PetShop.Repository.csproj" />
   </ItemGroup>
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PetShop.Helpers.Pagination;
 using PetShop.Repository.Context;
 using PetshopStore.Domain.Entities;
-
 
 namespace PetShop.Service
 {
@@ -79,7 +79,15 @@ namespace PetShop.Service
                 .FirstOrDefault(d => d.Email == email && d.Senha == senha);
         }
 
-        public Dono? BuscarPorId(string email)
+        public Dono? BuscarPorId(int id)
+        {
+            return _context.Donos
+                .Include(d => d.CidadeObj)
+                .Include(d => d.Pets)
+                .FirstOrDefault(d => d.Id == id);
+        }
+
+        public Dono? BuscarPorEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
                 return null;
@@ -94,19 +102,110 @@ namespace PetShop.Service
             return _context.Donos
                 .Include(d => d.Pets)
                 .Include(d => d.CidadeObj)
+                .OrderBy(d => d.Nome)
                 .ToList();
         }
 
         
-        public IQueryable<Dono> ListarTodosPaginado()
+        public async Task<PageResult<Dono>> ListarTodosPaginadoAsync(PageRequest pageRequest)
         {
+            if (pageRequest == null)
+                throw new ArgumentNullException(nameof(pageRequest));
+
+            if (pageRequest.PageNumber < 1)
+                pageRequest.PageNumber = 1;
+
+            if (pageRequest.PageSize < 1)
+                pageRequest.PageSize = 10;
+
             var query = _context.Donos
                 .Include(d => d.Pets)
                 .Include(d => d.CidadeObj)
                 .OrderBy(d => d.Nome)
                 .AsQueryable();
 
+            return await query.PaginateAsync(pageRequest);
+        }
 
+       
+        public async Task<PageResult<Dono>> ListarPorNomePaginadoAsync(string nome, PageRequest pageRequest)
+        {
+            if (pageRequest == null)
+                throw new ArgumentNullException(nameof(pageRequest));
+
+            if (pageRequest.PageNumber < 1)
+                pageRequest.PageNumber = 1;
+
+            if (pageRequest.PageSize < 1)
+                pageRequest.PageSize = 10;
+
+            var query = _context.Donos
+                .Include(d => d.Pets)
+                .Include(d => d.CidadeObj)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(nome))
+            {
+                query = query.Where(d => d.Nome.Contains(nome));
+            }
+
+            query = query.OrderBy(d => d.Nome);
+
+            return await query.PaginateAsync(pageRequest);
+        }
+
+        
+        public async Task<PageResult<Dono>> ListarPorCidadePaginadoAsync(int idCidade, PageRequest pageRequest)
+        {
+            if (pageRequest == null)
+                throw new ArgumentNullException(nameof(pageRequest));
+
+            if (pageRequest.PageNumber < 1)
+                pageRequest.PageNumber = 1;
+
+            if (pageRequest.PageSize < 1)
+                pageRequest.PageSize = 10;
+
+            var query = _context.Donos
+                .Include(d => d.Pets)
+                .Include(d => d.CidadeObj)
+                .Where(d => d.IdCidade == idCidade)
+                .OrderBy(d => d.Nome)
+                .AsQueryable();
+
+            return await query.PaginateAsync(pageRequest);
+        }
+
+        public void Atualizar(Dono dono)
+        {
+            var donoExiste = _context.Donos.Find(dono.Id);
+            if (donoExiste == null)
+                throw new Exception("Dono não encontrado.");
+
+            donoExiste.Nome = dono.Nome;
+            donoExiste.Endereco = dono.Endereco;
+            donoExiste.Telefone = dono.Telefone;
+            donoExiste.Email = dono.Email;
+            donoExiste.Documento = dono.Documento;
+            donoExiste.Bairro = dono.Bairro;
+            donoExiste.IdCidade = dono.IdCidade;
+
+            if (!string.IsNullOrWhiteSpace(dono.Senha))
+            {
+                donoExiste.Senha = dono.Senha;
+            }
+
+            _context.SaveChanges();
+        }
+
+        public void Remover(int id)
+        {
+            var dono = _context.Donos.Find(id);
+            if (dono == null)
+                throw new Exception("Dono não encontrado.");
+
+            _context.Donos.Remove(dono);
+            _context.SaveChanges();
         }
 
         public void Dispose()
