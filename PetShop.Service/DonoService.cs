@@ -2,9 +2,10 @@
 using PetShop.Repository.Context;
 using PetshopStore.Domain.Entities;
 
+
 namespace PetShop.Service
 {
-    public class DonoService
+    public class DonoService : IDisposable
     {
         private readonly PetShopContext _context;
 
@@ -15,7 +16,6 @@ namespace PetShop.Service
 
         public void Cadastrar(Dono dono)
         {
-            // Validações básicas
             if (string.IsNullOrWhiteSpace(dono.Nome))
                 throw new ArgumentException("O nome do dono é obrigatório.");
 
@@ -25,52 +25,93 @@ namespace PetShop.Service
             if (string.IsNullOrWhiteSpace(dono.Senha))
                 throw new ArgumentException("A senha do dono é obrigatória.");
 
-            // Tratamento da cidade
-            if (dono.CidadeObj == null)
+            if (dono.IdCidade <= 0 && dono.CidadeObj == null)
                 throw new ArgumentException("A cidade do dono deve ser informada.");
 
-            var nomeCidade = dono.CidadeObj.Nome;
-            var estadoCidade = dono.CidadeObj.Estado;
-
-            // Verifica se a cidade já existe no banco
-            var cidadeExistente = _context.Cidades
-                .FirstOrDefault(c => c.Nome == nomeCidade && c.Estado == estadoCidade);
-
-            if (cidadeExistente == null)
+            if (dono.CidadeObj != null)
             {
-                // Cria a cidade se não existir
-                cidadeExistente = new Cidade
-                {
-                    Nome = nomeCidade,
-                    Estado = estadoCidade
-                };
+                var nomeCidade = dono.CidadeObj.Nome?.Trim();
+                var estadoCidade = dono.CidadeObj.Estado?.Trim();
 
-                _context.Cidades.Add(cidadeExistente);
-                _context.SaveChanges();
+                if (string.IsNullOrWhiteSpace(nomeCidade) || string.IsNullOrWhiteSpace(estadoCidade))
+                    throw new ArgumentException("Nome e Estado da cidade são obrigatórios.");
+
+                var cidadeExistente = _context.Cidades
+                    .FirstOrDefault(c => c.Nome == nomeCidade && c.Estado == estadoCidade);
+
+                if (cidadeExistente == null)
+                {
+                    cidadeExistente = new Cidade
+                    {
+                        Nome = nomeCidade,
+                        Estado = estadoCidade
+                    };
+
+                    _context.Cidades.Add(cidadeExistente);
+                    _context.SaveChanges();
+                }
+
+                dono.IdCidade = cidadeExistente.Id;
+                dono.CidadeObj = null;
+            }
+            else if (dono.IdCidade > 0)
+            {
+                var cidadeExiste = _context.Cidades.Any(c => c.Id == dono.IdCidade);
+                if (!cidadeExiste)
+                    throw new ArgumentException("A cidade informada não existe.");
             }
 
-            // Associa o dono à cidade existente
-            dono.IdCidade = cidadeExistente.Id;
-            dono.CidadeObj = cidadeExistente;
+            var emailExistente = _context.Donos.Any(d => d.Email == dono.Email);
+            if (emailExistente)
+                throw new ArgumentException("Este email já está cadastrado.");
 
-            // Salva o dono
             _context.Donos.Add(dono);
             _context.SaveChanges();
         }
 
         public Dono? ValidarLogin(string email, string senha)
         {
-            return _context.Donos.FirstOrDefault(d => d.Email == email && d.Senha == senha);
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(senha))
+                return null;
+
+            return _context.Donos
+                .Include(d => d.CidadeObj)
+                .FirstOrDefault(d => d.Email == email && d.Senha == senha);
         }
 
-        public Dono? BuscarPorEmail(string email)
+        public Dono? BuscarPorId(string email)
         {
-            return _context.Donos.FirstOrDefault(d => d.Email == email);
+            if (string.IsNullOrWhiteSpace(email))
+                return null;
+
+            return _context.Donos
+                .Include(d => d.CidadeObj)
+                .FirstOrDefault(d => d.Email == email);
         }
 
         public List<Dono> ListarTodos()
         {
-            return _context.Donos.Include(d => d.Pets).Include(d => d.CidadeObj).ToList();
+            return _context.Donos
+                .Include(d => d.Pets)
+                .Include(d => d.CidadeObj)
+                .ToList();
+        }
+
+        
+        public IQueryable<Dono> ListarTodosPaginado()
+        {
+            var query = _context.Donos
+                .Include(d => d.Pets)
+                .Include(d => d.CidadeObj)
+                .OrderBy(d => d.Nome)
+                .AsQueryable();
+
+
+        }
+
+        public void Dispose()
+        {
+            _context?.Dispose();
         }
     }
 }

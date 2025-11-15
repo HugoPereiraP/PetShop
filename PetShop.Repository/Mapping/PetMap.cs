@@ -8,12 +8,11 @@ namespace PetShop.Repository.Mapping
     {
         public void Configure(EntityTypeBuilder<Pet> builder)
         {
-            // Chave primária
-
+            
             builder.ToTable("Pets");
             builder.HasKey(p => p.Id);
 
-            // Propriedades
+            
             builder.Property(p => p.Nome)
                 .IsRequired()
                 .HasMaxLength(100);
@@ -23,9 +22,9 @@ namespace PetShop.Repository.Mapping
             builder.Property(p => p.Raca)
                 .IsRequired()
                 .HasMaxLength(50);
-            builder.Property(p => p.DataNascimento)
+            builder.Property(p => p.Idade)
                 .IsRequired()
-                .HasColumnType("date");
+                .HasMaxLength(3);
             builder.Property(p => p.Sexo)
                 .IsRequired()
                 .HasMaxLength(10);  

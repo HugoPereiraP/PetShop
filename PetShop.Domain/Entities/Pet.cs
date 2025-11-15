@@ -10,7 +10,7 @@ namespace PetshopStore.Domain.Entities
         public string Nome { get; set; }
         public string Especie { get; set; }
         public string Raca { get; set; }
-        public DateTime DataNascimento { get; set; }
+        public int Idade { get; set; }
         public int IdDono { get; set; }
         public string Sexo { get; set; }
         public decimal Peso { get; set; }
@@ -21,14 +21,14 @@ namespace PetshopStore.Domain.Entities
 
         public Pet() { }
 
-        public Pet(int id, string nome, string especie, string raca, DateTime dataNascimento
+        public Pet(int id, string nome, string especie, string raca, int idade
             , int idDono, string sexo, decimal peso)
             : base(id)
         {
             Nome = nome;
             Especie = especie;
             Raca = raca;
-            DataNascimento = dataNascimento;
+            Idade = idade;
             IdDono = idDono;
             Sexo = sexo;
             Peso = peso;

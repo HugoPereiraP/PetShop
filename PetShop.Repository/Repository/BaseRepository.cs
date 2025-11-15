@@ -2,12 +2,9 @@
 using PetShop.Domain.Base;
 using PetShop.Repository.Context;
 
-
-
-
 namespace PetShop.Repository.Base
 {
-    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity<int>
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class, IBaseEntity
     {
         protected readonly PetShopContext _mysqlContext;
 
@@ -34,7 +31,7 @@ namespace PetShop.Repository.Base
 
         public void Update(TEntity entity)
         {
-            _mysqlContext.Set<TEntity>().Update(entity);
+            _mysqlContext.Entry(entity).State = EntityState.Modified;
             _mysqlContext.SaveChanges();
         }
 
@@ -63,7 +60,15 @@ namespace PetShop.Repository.Base
                 foreach (var include in includes)
                     query = query.Include(include);
 
-            return query.FirstOrDefault(e => e.Id!.Equals(id));
+            // ✅ CORREÇÃO: Usar reflexão para acessar a propriedade Id
+            return query.AsEnumerable()
+                .FirstOrDefault(e =>
+                {
+                    var idProperty = e.GetType().GetProperty("Id");
+                    if (idProperty == null) return false;
+                    var entityId = idProperty.GetValue(e);
+                    return entityId != null && entityId.Equals(id);
+                });
         }
     }
 }
