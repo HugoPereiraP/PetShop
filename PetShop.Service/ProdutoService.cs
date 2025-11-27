@@ -264,7 +264,7 @@ namespace PetShop.Service
             if (produto == null)
                 throw new Exception("Produto não encontrado.");
 
-            var temVendas = _context.ItensVendas.Any(vi => vi.IdProduto == id);
+            var temVendas = _context.VendaItems.Any(vi => vi.IdProduto == id);
             if (temVendas)
                 throw new InvalidOperationException("Não é possível remover um produto que possui vendas associadas.");
 

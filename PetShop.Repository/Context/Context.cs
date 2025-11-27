@@ -35,7 +35,7 @@ namespace PetShop.Repository.Context
         public DbSet<Cidade> Cidades { get; set; }
         public DbSet<Venda> Vendas { get; set; }
         public DbSet<Produto> Produtos { get; set; }
-        public DbSet<VendaItem> ItensVendas { get; set; }
+        public DbSet<VendaItem> VendaItems { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Grupo> Grupos { get; set; }
 

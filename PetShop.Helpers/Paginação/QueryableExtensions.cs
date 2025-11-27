@@ -1,6 +1,4 @@
-﻿
-using System.Data.Entity;
-
+﻿using Microsoft.EntityFrameworkCore;
 namespace PetShop.Helpers.Pagination
 {
     public static class QueryableExtensions

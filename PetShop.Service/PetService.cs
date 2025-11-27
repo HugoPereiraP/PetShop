@@ -34,7 +34,7 @@ namespace PetShop.Service
 
         public Pet? BuscarporId(int id)
         {
-            return _context.Pets
+                return _context.Pets
                 .Include(p => p.Dono)
                 .FirstOrDefault(p => p.Id == id);
         }

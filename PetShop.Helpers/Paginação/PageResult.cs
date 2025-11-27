@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace PetShop.Helpers.Pagination
 {
     public class PageResult<T>
