@@ -4,30 +4,17 @@ using PetshopStore.Domain.Entities;
 
 namespace PetShop.Repository.Context
 {
-    public class PetShopContext : DbContext
+    public class PetShopDbContext : DbContext
     {
-        public PetShopContext()
+        // Construtor com opções (usado pelo DI)
+        public PetShopDbContext(DbContextOptions<PetShopDbContext> options)
+            : base(options)
         {
-            // 🔹 Garante que o banco e as tabelas sejam criados se ainda não existirem
+            // Cria apenas as tabelas caso o banco exista
             Database.EnsureCreated();
         }
 
-        public PetShopContext(DbContextOptions<PetShopContext> options)
-            : base(options)
-        {
-            Database.EnsureCreated(); // Mesmo comportamento para este construtor
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                // ⚙️ Conexão com o MySQL sem senha
-                optionsBuilder.UseMySQL("server=localhost;database=petshop;user=root;");
-            }
-        }
-
-        // 🔹 DbSets — representam suas tabelas
+        // DbSets — representam suas tabelas
         public DbSet<Dono> Donos { get; set; }
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Agendamento> Agendamentos { get; set; }
@@ -39,11 +26,22 @@ namespace PetShop.Repository.Context
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Grupo> Grupos { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            // Só configura a conexão se não estiver configurada via DI
+            if (!optionsBuilder.IsConfigured)
+            {
+                // Substitua user, password e database conforme seu MySQL
+                var connectionString = "server=localhost;database=PetShop;user=root;password=;";
+                optionsBuilder.UseMySQL(connectionString);
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // 🔹 Aplica todas as configurações (mappings)
+            // Aplica todos os mappings
             modelBuilder.Entity<Dono>(new DonoMap().Configure);
             modelBuilder.Entity<Pet>(new PetMap().Configure);
             modelBuilder.Entity<Agendamento>(new AgendamentoMap().Configure);

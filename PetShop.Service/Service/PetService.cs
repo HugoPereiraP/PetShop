@@ -1,16 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PetShop.Domain.Interfaces;
 using PetShop.Repository.Context;
 using PetshopStore.Domain.Entities;
 
-namespace PetShop.Service
+namespace PetShop.Service.Service
 {
-    public class PetService
+    public class PetService : IPetService
     {
-        private readonly PetShopContext _context;
+        private readonly PetShopDbContext _context;
 
-        public PetService()
+        public PetService(PetShopDbContext context)
         {
-            _context = new PetShopContext();
+            _context =  context;
         }
 
         public void CadastrarPet(Pet pet)

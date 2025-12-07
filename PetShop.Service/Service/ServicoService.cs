@@ -3,17 +3,18 @@ using PetShop.Helpers.Pagination;
 using PetShop.Repository.Context;
 using PetshopStore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using PetShop.Domain.Interfaces;
 
 
-namespace PetShop.Service
+namespace PetShop.Service.Service
 {
-        public class ServicoService : IDisposable
+        public class ServicoService : IServicoService
     {
-        private readonly PetShopContext _context;
+        private readonly PetShopDbContext _context;
 
-        public ServicoService()
+        public ServicoService(PetShopDbContext context)
         {
-            _context = new PetShopContext();
+            _context = context;
         }
 
         public async Task<List<Servico>> ListarTodosAsync()
@@ -24,11 +25,11 @@ namespace PetShop.Service
         }
         public void Cadastrar(Servico servico)
         {
-            if(String.IsNullOrEmpty(servico.Nome))
+            if(string.IsNullOrEmpty(servico.Nome))
                 throw new ArgumentException("O nome do serviço é obrigatório.");
             if(servico.Preco <= 0)
                 throw new ArgumentException("O preço do serviço deve ser maior que zero.");
-            if(String.IsNullOrEmpty(servico.Descricao))
+            if(string.IsNullOrEmpty(servico.Descricao))
                throw new ArgumentException("A descrição do serviço é obrigatória.");
 
             _context.Servicos.Add(servico); 
@@ -72,11 +73,5 @@ namespace PetShop.Service
             _context.Servicos.Remove(servico);
             _context.SaveChanges();
         }
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
-
-      
     }
 }

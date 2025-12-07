@@ -4,7 +4,7 @@ using PetshopStore.Domain.Entities;
 
 namespace PetShop.Repository.Mapping
 {
-    internal class GrupoMap : IEntityTypeConfiguration<Grupo>
+    public class GrupoMap : IEntityTypeConfiguration<Grupo>
     {
         public void Configure(EntityTypeBuilder<Grupo> builder)
         {

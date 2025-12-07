@@ -7,7 +7,7 @@ namespace PetshopStore.Domain.Entities
         public string Nome { get; set; }
         public string Estado { get; set; }
 
-        // Navegação
+        
         public ICollection<Dono> Donos { get; set; }
 
         public Cidade() { }

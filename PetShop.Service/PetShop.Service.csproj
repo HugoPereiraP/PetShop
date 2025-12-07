@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PetShop.Domain\PetShop.Domain.csproj" />
     <ProjectReference Include="..\PetShop.Helpers\PetShop.Helpers.csproj" />
     <ProjectReference Include="..\PetShop.Repository\PetShop.Repository.csproj" />

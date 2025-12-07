@@ -6,9 +6,9 @@ namespace PetShop.Repository.Base
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class, IBaseEntity
     {
-        protected readonly PetShopContext _mysqlContext;
+        protected readonly PetShopDbContext _mysqlContext;
 
-        public BaseRepository(PetShopContext mysqlContext)
+        public BaseRepository(PetShopDbContext mysqlContext)
         {
             _mysqlContext = mysqlContext;
         }

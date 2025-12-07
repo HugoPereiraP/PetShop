@@ -1,19 +1,23 @@
-using PetShop.App;
+using PetShop.App.Infra;
+using Microsoft.Extensions.DependencyInjection;
+using PetShop.App.Register;
 
-
-
-namespace IFSPStore.App
+namespace PetShop.App
 {
     internal static class Program
     {
-        
         [STAThread]
         static void Main()
         {
-            ConfigureDI.ConfigureService();
 
             ApplicationConfiguration.Initialize();
-            Application.Run(new FormPrincipal());
+            // Configura o DI
+            ConfigureDI.ConfigureService();
+
+            // Obtém o FormLogin do container
+            var formLogin = ConfigureDI.serviceProvider.GetRequiredService<FormLogin>();
+
+            Application.Run(formLogin);
         }
     }
 }

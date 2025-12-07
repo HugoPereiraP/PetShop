@@ -1,17 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PetShop.Domain.Interfaces;
 using PetShop.Helpers.Pagination;
 using PetShop.Repository.Context;
 using PetshopStore.Domain.Entities;
 
-namespace PetShop.Service
+namespace PetShop.Service.Service
 {
-    public class VendaItemService : IDisposable
+    public class VendaItemService : IVendaItemService
     {
-        private readonly PetShopContext _context;
+        private readonly PetShopDbContext _context;
 
-        public VendaItemService()
+        public VendaItemService(PetShopDbContext context)
         {
-            _context = new PetShopContext();
+            _context = context;
         }
 
       
@@ -92,9 +93,6 @@ namespace PetShop.Service
             _context.SaveChanges();
         }
 
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
+      
     }
 }
