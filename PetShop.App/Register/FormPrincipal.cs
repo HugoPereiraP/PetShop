@@ -42,14 +42,24 @@ namespace PetShop.App.Register
             ShowForm<FormCadastroDono>();
         }
 
+        // No arquivo: PetShop.App/Register/FormPrincipal.cs
+
+        // Cole isso no PetShop.App/Register/FormPrincipal.cs
+
+
         private void ShowForm<TFormulario>() where TFormulario : Form
         {
-            var cad = ConfigureDI.serviceProvider.GetService<TFormulario>();
-
-            if (cad is not null && !cad.IsDisposed)
+            try
             {
-                cad.MdiParent = this;
-                cad.Show();
+        
+                var novoForm = ConfigureDI.serviceProvider.GetRequiredService<TFormulario>();
+
+             
+                novoForm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro: {ex.Message}");
             }
         }
 
