@@ -36,15 +36,19 @@ namespace PetShop.App.Register
                 return;
             }
 
-            this.Hide();
+           
             var principal = _serviceProvider.GetRequiredService<FormPrincipal>();
+
+           
             principal.FormClosed += (s, args) => this.Close();
-            principal.Show();
+
+            this.Hide();      
+            principal.Show(); 
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Application.Exit(); 
         }
 
         private void btnCadastrar_Click(object sender, EventArgs e)
@@ -56,8 +60,6 @@ namespace PetShop.App.Register
 
                 var result = cadastroForm.ShowDialog(this);
 
-                cadastroForm.Dispose();
-
                 if (result == DialogResult.OK)
                 {
                     MessageBox.Show("Cadastro realizado com sucesso! Você já pode fazer login.",
@@ -66,8 +68,8 @@ namespace PetShop.App.Register
                                     MessageBoxIcon.Information);
                 }
 
-                this.Activate();
-                this.BringToFront();
+                cadastroForm.Dispose(); // evita memory leak
+                this.Focus();
             }
             catch (Exception ex)
             {

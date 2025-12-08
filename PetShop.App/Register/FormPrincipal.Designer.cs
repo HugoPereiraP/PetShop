@@ -15,200 +15,194 @@
 
         private void InitializeComponent()
         {
-            this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.menuCadastros = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuClientes = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuPets = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuProdutos = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuServicos = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuVendas = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuNovaVenda = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuHistoricoVendas = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuAgendamentos = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuNovoAgendamento = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuConsultarAgendamentos = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuRelatorios = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuSair = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblUsuario = new System.Windows.Forms.ToolStripStatusLabel();
-            this.panelConteudo = new System.Windows.Forms.Panel();
-            this.lblBemVindo = new System.Windows.Forms.Label();
-            this.menuStrip.SuspendLayout();
-            this.statusStrip.SuspendLayout();
-            this.panelConteudo.SuspendLayout();
-            this.SuspendLayout();
+            menuStrip = new MenuStrip();
+            menuCadastros = new ToolStripMenuItem();
+            menuClientes = new ToolStripMenuItem();
+            menuPets = new ToolStripMenuItem();
+            menuProdutos = new ToolStripMenuItem();
+            menuServicos = new ToolStripMenuItem();
+            menuVendas = new ToolStripMenuItem();
+            menuNovaVenda = new ToolStripMenuItem();
+            menuHistoricoVendas = new ToolStripMenuItem();
+            menuAgendamentos = new ToolStripMenuItem();
+            menuNovoAgendamento = new ToolStripMenuItem();
+            menuConsultarAgendamentos = new ToolStripMenuItem();
+            menuRelatorios = new ToolStripMenuItem();
+            menuSair = new ToolStripMenuItem();
+            statusStrip = new StatusStrip();
+            lblStatus = new ToolStripStatusLabel();
+            lblUsuario = new ToolStripStatusLabel();
+            panelConteudo = new Panel();
+            lblBemVindo = new Label();
+            menuStrip.SuspendLayout();
+            statusStrip.SuspendLayout();
+            panelConteudo.SuspendLayout();
+            SuspendLayout();
             // 
             // menuStrip
             // 
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuCadastros,
-            this.menuVendas,
-            this.menuAgendamentos,
-            this.menuRelatorios,
-            this.menuSair});
-            this.menuStrip.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1000, 24);
-            this.menuStrip.TabIndex = 0;
-            this.menuStrip.Text = "menuStrip1";
+            menuStrip.ImageScalingSize = new Size(20, 20);
+            menuStrip.Items.AddRange(new ToolStripItem[] { menuCadastros, menuVendas, menuAgendamentos, menuRelatorios, menuSair });
+            menuStrip.Location = new Point(3, 85);
+            menuStrip.Name = "menuStrip";
+            menuStrip.Padding = new Padding(7, 3, 0, 3);
+            menuStrip.Size = new Size(1137, 30);
+            menuStrip.TabIndex = 0;
+            menuStrip.Text = "menuStrip1";
             // 
             // menuCadastros
             // 
-            this.menuCadastros.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuClientes,
-            this.menuPets,
-            this.menuProdutos,
-            this.menuServicos});
-            this.menuCadastros.Name = "menuCadastros";
-            this.menuCadastros.Size = new System.Drawing.Size(71, 20);
-            this.menuCadastros.Text = "Cadastros";
+            menuCadastros.DropDownItems.AddRange(new ToolStripItem[] { menuClientes, menuPets, menuProdutos, menuServicos });
+            menuCadastros.Name = "menuCadastros";
+            menuCadastros.Size = new Size(88, 24);
+            menuCadastros.Text = "Cadastros";
             // 
             // menuClientes
             // 
-            this.menuClientes.Name = "menuClientes";
-            this.menuClientes.Size = new System.Drawing.Size(122, 22);
-            this.menuClientes.Text = "Clientes";
+            menuClientes.Name = "menuClientes";
+            menuClientes.Size = new Size(224, 26);
+            menuClientes.Text = "Clientes";
+            menuClientes.Click += menuClientes_Click;
             // 
             // menuPets
             // 
-            this.menuPets.Name = "menuPets";
-            this.menuPets.Size = new System.Drawing.Size(122, 22);
-            this.menuPets.Text = "Pets";
+            menuPets.Name = "menuPets";
+            menuPets.Size = new Size(224, 26);
+            menuPets.Text = "Pets";
+            menuPets.Click += menuPets_Click;
             // 
             // menuProdutos
             // 
-            this.menuProdutos.Name = "menuProdutos";
-            this.menuProdutos.Size = new System.Drawing.Size(122, 22);
-            this.menuProdutos.Text = "Produtos";
+            menuProdutos.Name = "menuProdutos";
+            menuProdutos.Size = new Size(224, 26);
+            menuProdutos.Text = "Produtos";
             // 
             // menuServicos
             // 
-            this.menuServicos.Name = "menuServicos";
-            this.menuServicos.Size = new System.Drawing.Size(122, 22);
-            this.menuServicos.Text = "Serviços";
+            menuServicos.Name = "menuServicos";
+            menuServicos.Size = new Size(224, 26);
+            menuServicos.Text = "Serviços";
             // 
             // menuVendas
             // 
-            this.menuVendas.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuNovaVenda,
-            this.menuHistoricoVendas});
-            this.menuVendas.Name = "menuVendas";
-            this.menuVendas.Size = new System.Drawing.Size(56, 20);
-            this.menuVendas.Text = "Vendas";
+            menuVendas.DropDownItems.AddRange(new ToolStripItem[] { menuNovaVenda, menuHistoricoVendas });
+            menuVendas.Name = "menuVendas";
+            menuVendas.Size = new Size(70, 24);
+            menuVendas.Text = "Vendas";
             // 
             // menuNovaVenda
             // 
-            this.menuNovaVenda.Name = "menuNovaVenda";
-            this.menuNovaVenda.Size = new System.Drawing.Size(180, 22);
-            this.menuNovaVenda.Text = "Nova Venda";
+            menuNovaVenda.Name = "menuNovaVenda";
+            menuNovaVenda.Size = new Size(224, 26);
+            menuNovaVenda.Text = "Nova Venda";
             // 
             // menuHistoricoVendas
             // 
-            this.menuHistoricoVendas.Name = "menuHistoricoVendas";
-            this.menuHistoricoVendas.Size = new System.Drawing.Size(180, 22);
-            this.menuHistoricoVendas.Text = "Histórico de Vendas";
+            menuHistoricoVendas.Name = "menuHistoricoVendas";
+            menuHistoricoVendas.Size = new Size(224, 26);
+            menuHistoricoVendas.Text = "Histórico de Vendas";
             // 
             // menuAgendamentos
             // 
-            this.menuAgendamentos.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuNovoAgendamento,
-            this.menuConsultarAgendamentos});
-            this.menuAgendamentos.Name = "menuAgendamentos";
-            this.menuAgendamentos.Size = new System.Drawing.Size(100, 20);
-            this.menuAgendamentos.Text = "Agendamentos";
+            menuAgendamentos.DropDownItems.AddRange(new ToolStripItem[] { menuNovoAgendamento, menuConsultarAgendamentos });
+            menuAgendamentos.Name = "menuAgendamentos";
+            menuAgendamentos.Size = new Size(124, 24);
+            menuAgendamentos.Text = "Agendamentos";
             // 
             // menuNovoAgendamento
             // 
-            this.menuNovoAgendamento.Name = "menuNovoAgendamento";
-            this.menuNovoAgendamento.Size = new System.Drawing.Size(213, 22);
-            this.menuNovoAgendamento.Text = "Novo Agendamento";
+            menuNovoAgendamento.Name = "menuNovoAgendamento";
+            menuNovoAgendamento.Size = new Size(259, 26);
+            menuNovoAgendamento.Text = "Novo Agendamento";
             // 
             // menuConsultarAgendamentos
             // 
-            this.menuConsultarAgendamentos.Name = "menuConsultarAgendamentos";
-            this.menuConsultarAgendamentos.Size = new System.Drawing.Size(213, 22);
-            this.menuConsultarAgendamentos.Text = "Consultar Agendamentos";
+            menuConsultarAgendamentos.Name = "menuConsultarAgendamentos";
+            menuConsultarAgendamentos.Size = new Size(259, 26);
+            menuConsultarAgendamentos.Text = "Consultar Agendamentos";
             // 
             // menuRelatorios
             // 
-            this.menuRelatorios.Name = "menuRelatorios";
-            this.menuRelatorios.Size = new System.Drawing.Size(71, 20);
-            this.menuRelatorios.Text = "Relatórios";
+            menuRelatorios.Name = "menuRelatorios";
+            menuRelatorios.Size = new Size(90, 24);
+            menuRelatorios.Text = "Relatórios";
             // 
             // menuSair
             // 
-            this.menuSair.Name = "menuSair";
-            this.menuSair.Size = new System.Drawing.Size(38, 20);
-            this.menuSair.Text = "Sair";
-            this.menuSair.Click += new System.EventHandler(this.btnSair_Click);
+            menuSair.Name = "menuSair";
+            menuSair.Size = new Size(48, 24);
+            menuSair.Text = "Sair";
+            menuSair.Click += btnSair_Click;
             // 
             // statusStrip
             // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblStatus,
-            this.lblUsuario});
-            this.statusStrip.Location = new System.Drawing.Point(0, 578);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(1000, 22);
-            this.statusStrip.TabIndex = 1;
-            this.statusStrip.Text = "statusStrip1";
+            statusStrip.ImageScalingSize = new Size(20, 20);
+            statusStrip.Items.AddRange(new ToolStripItem[] { lblStatus, lblUsuario });
+            statusStrip.Location = new Point(3, 770);
+            statusStrip.Name = "statusStrip";
+            statusStrip.Padding = new Padding(1, 0, 16, 0);
+            statusStrip.Size = new Size(1137, 26);
+            statusStrip.TabIndex = 1;
+            statusStrip.Text = "statusStrip1";
             // 
             // lblStatus
             // 
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(90, 17);
-            this.lblStatus.Text = "Sistema Ativo";
+            lblStatus.Name = "lblStatus";
+            lblStatus.Size = new Size(100, 20);
+            lblStatus.Text = "Sistema Ativo";
             // 
             // lblUsuario
             // 
-            this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(895, 17);
-            this.lblUsuario.Spring = true;
-            this.lblUsuario.Text = "Usuário: Admin";
-            this.lblUsuario.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            lblUsuario.Name = "lblUsuario";
+            lblUsuario.Size = new Size(1020, 20);
+            lblUsuario.Spring = true;
+            lblUsuario.Text = "Usuário: Admin";
+            lblUsuario.TextAlign = ContentAlignment.MiddleRight;
             // 
             // panelConteudo
             // 
-            this.panelConteudo.Controls.Add(this.lblBemVindo);
-            this.panelConteudo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelConteudo.Location = new System.Drawing.Point(0, 24);
-            this.panelConteudo.Name = "panelConteudo";
-            this.panelConteudo.Size = new System.Drawing.Size(1000, 554);
-            this.panelConteudo.TabIndex = 2;
+            panelConteudo.Controls.Add(lblBemVindo);
+            panelConteudo.Dock = DockStyle.Fill;
+            panelConteudo.Location = new Point(3, 115);
+            panelConteudo.Margin = new Padding(3, 4, 3, 4);
+            panelConteudo.Name = "panelConteudo";
+            panelConteudo.Size = new Size(1137, 655);
+            panelConteudo.TabIndex = 2;
             // 
             // lblBemVindo
             // 
-            this.lblBemVindo.AutoSize = true;
-            this.lblBemVindo.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold);
-            this.lblBemVindo.Location = new System.Drawing.Point(300, 200);
-            this.lblBemVindo.Name = "lblBemVindo";
-            this.lblBemVindo.Size = new System.Drawing.Size(400, 37);
-            this.lblBemVindo.TabIndex = 0;
-            this.lblBemVindo.Text = "Bem-vindo ao Sistema PetShop";
+            lblBemVindo.AutoSize = true;
+            lblBemVindo.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lblBemVindo.Location = new Point(343, 267);
+            lblBemVindo.Name = "lblBemVindo";
+            lblBemVindo.Size = new Size(518, 46);
+            lblBemVindo.TabIndex = 0;
+            lblBemVindo.Text = "Bem-vindo ao Sistema PetShop";
             // 
             // FormPrincipal
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 600);
-            this.Controls.Add(this.panelConteudo);
-            this.Controls.Add(this.statusStrip);
-            this.Controls.Add(this.menuStrip);
-            this.MainMenuStrip = this.menuStrip;
-            this.Name = "FormPrincipal";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Sistema PetShop - Tela Principal";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.FormPrincipal_Load);
-            this.menuStrip.ResumeLayout(false);
-            this.menuStrip.PerformLayout();
-            this.statusStrip.ResumeLayout(false);
-            this.statusStrip.PerformLayout();
-            this.panelConteudo.ResumeLayout(false);
-            this.panelConteudo.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1143, 800);
+            Controls.Add(panelConteudo);
+            Controls.Add(statusStrip);
+            Controls.Add(menuStrip);
+            MainMenuStrip = menuStrip;
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "FormPrincipal";
+            Padding = new Padding(3, 85, 3, 4);
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Sistema PetShop - Tela Principal";
+            WindowState = FormWindowState.Maximized;
+            Load += FormPrincipal_Load;
+            menuStrip.ResumeLayout(false);
+            menuStrip.PerformLayout();
+            statusStrip.ResumeLayout(false);
+            statusStrip.PerformLayout();
+            panelConteudo.ResumeLayout(false);
+            panelConteudo.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         private System.Windows.Forms.MenuStrip menuStrip;

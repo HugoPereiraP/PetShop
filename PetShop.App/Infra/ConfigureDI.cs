@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using PetShop.App.Forms;
 using PetShop.App.Register;
 using PetShop.App.ViewModels;
 using PetShop.Domain.Base;
@@ -73,11 +74,11 @@ namespace PetShop.App.Infra
 
           
             services.AddTransient<FormLogin>();
-            services.AddTransient<FormPrincipal>();
             services.AddTransient<FormCadastroUsuario>();
+            services.AddTransient<FormPrincipal>();
+            services.AddTransient<FormCadastroDono>();
 
 
-          
             serviceProvider = services.BuildServiceProvider();
         }
     }
