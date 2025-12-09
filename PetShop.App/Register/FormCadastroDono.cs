@@ -1,27 +1,29 @@
 ﻿using PetShop.Domain.Interfaces;
 using PetshopStore.Domain.Entities;
-using ReaLTaiizor.Forms;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace PetShop.App.Forms
 {
-    public partial class FormCadastroDono : MaterialForm
+    public partial class FormCadastroDono : Form
     {
         private readonly IDonoService _donoService;
-        private readonly ICidadeService _cidadeService; // 1. Serviço de cidade adicionado
+        private readonly ICidadeService _cidadeService;
 
         private int? _idDonoEdicao;
 
-        // Construtor Principal com Injeção de Dependência
+        // Construtor Principal
         public FormCadastroDono(IDonoService donoService, ICidadeService cidadeService)
         {
             InitializeComponent();
             _donoService = donoService;
-            _cidadeService = cidadeService; // 2. Atribuição do serviço
+            _cidadeService = cidadeService;
             ConfigurarFormulario();
         }
 
-        // Construtor para Edição (recebe o ID do dono a editar e os serviços)
+        // Construtor para Edição
         public FormCadastroDono(IDonoService donoService, ICidadeService cidadeService, int idDono)
             : this(donoService, cidadeService)
         {
@@ -31,7 +33,6 @@ namespace PetShop.App.Forms
 
         private void FormCadastroDono_Load(object sender, EventArgs e)
         {
-            // Carrega as cidades assim que o formulário abre
             CarregarCidades();
         }
 
@@ -39,14 +40,17 @@ namespace PetShop.App.Forms
         {
             try
             {
-                // 3. Busca a lista real do banco de dados
                 var cidades = _cidadeService.Listar().ToList();
 
                 cboCidade.DataSource = cidades;
-                cboCidade.DisplayMember = "Nome"; // Certifique-se que a classe Cidade tem a prop 'Nome'
-                cboCidade.ValueMember = "Id";     // Certifique-se que a classe Cidade tem a prop 'Id' (BaseEntity)
+                cboCidade.DisplayMember = "Nome";
+                cboCidade.ValueMember = "Id";
 
-                cboCidade.SelectedIndex = -1; // Deixa o combo vazio inicialmente
+                // Configuração de AutoComplete
+                cboCidade.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cboCidade.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+                cboCidade.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
@@ -63,25 +67,27 @@ namespace PetShop.App.Forms
                 // Captura os dados da tela
                 var nome = txtNome.Text.Trim();
                 var email = txtEmail.Text.Trim();
-                var cpf = txtDocumento.Text.Trim();
-                var telefone = txtTelefone.Text.Trim();
+
+                // IMPORTANTE: MaskedTextBox pode vir com formatação. 
+                // Abaixo eu removo caracteres não numéricos para garantir que salve limpo no banco.
+                var cpf = txtDocumento.Text.Replace(".", "").Replace("-", "").Trim();
+                var telefone = txtTelefone.Text.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "").Trim();
+
                 var endereco = txtEndereco.Text.Trim();
                 var bairro = txtBairro.Text.Trim();
                 var senha = txtSenha.Text.Trim();
 
-                // Pega o ID da cidade selecionada (ValueMember)
                 var idCidade = (int)cboCidade.SelectedValue;
 
-                // Cria o objeto usando o construtor da sua entidade
                 var dono = new Dono(
                     id: _idDonoEdicao ?? 0,
                     nome: nome,
                     endereco: endereco,
-                    documento: cpf,
+                    documento: cpf, // Envia limpo
                     bairro: bairro,
                     idCidade: idCidade,
                     email: email,
-                    telefone: telefone,
+                    telefone: telefone, // Envia limpo
                     senha: senha
                 );
 
@@ -96,7 +102,7 @@ namespace PetShop.App.Forms
                     MessageBox.Show("Dono cadastrado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
-                this.Close(); // Fecha o formulário e retorna para a listagem (se houver)
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -117,9 +123,10 @@ namespace PetShop.App.Forms
                 txtNome.Focus();
                 return false;
             }
-            if (string.IsNullOrWhiteSpace(txtDocumento.Text))
+            // Verifica se o MaskedTextBox foi preenchido (se só tem a máscara, o Length é pequeno ou TextMaskFormat controla)
+            if (!txtDocumento.MaskCompleted)
             {
-                MessageBox.Show("O campo Documento é obrigatório.");
+                MessageBox.Show("O CPF está incompleto.");
                 txtDocumento.Focus();
                 return false;
             }
@@ -152,14 +159,13 @@ namespace PetShop.App.Forms
                 if (dono != null)
                 {
                     txtNome.Text = dono.Nome;
-                    txtDocumento.Text = dono.Documento;
+                    txtDocumento.Text = dono.Documento; // O MaskedTextBox aplicará a máscara se o dado vier limpo do banco
                     txtEmail.Text = dono.Email;
                     txtTelefone.Text = dono.Telefone;
                     txtEndereco.Text = dono.Endereco;
                     txtBairro.Text = dono.Bairro;
                     txtSenha.Text = dono.Senha;
 
-                    // Seleciona a cidade correta no combobox
                     cboCidade.SelectedValue = dono.IdCidade;
 
                     btnSalvar.Text = "Atualizar";

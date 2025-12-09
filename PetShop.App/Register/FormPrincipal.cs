@@ -8,7 +8,8 @@ using System.Windows.Forms;
 
 namespace PetShop.App.Register
 {
-    public partial class FormPrincipal : MaterialForm
+    
+    public partial class FormPrincipal : Form
     {
         public FormPrincipal()
         {
@@ -18,23 +19,19 @@ namespace PetShop.App.Register
 
         private void FormPrincipal_Load(object sender, EventArgs e)
         {
-            // Configurações iniciais do form
+            //  Carregar estatísticas reais aqui
+            lblQtdClientes.Text = "15"; // Exemplo
+            lblValorVendas.Text = "R$ 450,00"; // Exemplo
         }
 
-        private void btnSair_Click(object sender, EventArgs e)
+        private void btnHome_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show("Deseja realmente sair?",
-                                        "Confirmar",
-                                        MessageBoxButtons.YesNo,
-                                        MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-                this.Close();
-        }
-
-        private void menuPets_Click(object sender, EventArgs e)
-        {
-
+            // Fecha todos os forms filhos para mostrar o dashboard
+            foreach (var child in this.MdiChildren)
+            {
+                child.Close();
+            }
+            panelDashboard.Visible = true;
         }
 
         private void menuClientes_Click(object sender, EventArgs e)
@@ -42,26 +39,37 @@ namespace PetShop.App.Register
             ShowForm<FormCadastroDono>();
         }
 
-        // No arquivo: PetShop.App/Register/FormPrincipal.cs
-
-        // Cole isso no PetShop.App/Register/FormPrincipal.cs
-
+        private void menuPets_Click(object sender, EventArgs e)
+        {
+            ShowForm<FormCadastroPet>();
+        }
 
         private void ShowForm<TFormulario>() where TFormulario : Form
         {
             try
             {
-        
+                
+                panelDashboard.Visible = false;
+
                 var novoForm = ConfigureDI.serviceProvider.GetRequiredService<TFormulario>();
 
-             
-                novoForm.ShowDialog();
+                
+                novoForm.MdiParent = this;
+                novoForm.Show();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro: {ex.Message}");
+                panelDashboard.Visible = true; 
             }
         }
 
+        private void btnSair_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Deseja sair?", "Sair", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
     }
 }

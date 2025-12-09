@@ -77,6 +77,7 @@ namespace PetShop.App.Infra
             services.AddTransient<FormCadastroUsuario>();
             services.AddTransient<FormPrincipal>();
             services.AddTransient<FormCadastroDono>();
+            services.AddTransient<FormCadastroPet>();
 
 
             serviceProvider = services.BuildServiceProvider();

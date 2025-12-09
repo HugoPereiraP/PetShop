@@ -1,8 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetShop.Domain.Interfaces;
 using PetShop.Helpers.Pagination;
+using PetShop.Helpers.Security; // Adicionado para usar o PasswordHelper
 using PetShop.Repository.Context;
 using PetshopStore.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PetShop.Service.Service
 {
@@ -12,15 +17,15 @@ namespace PetShop.Service.Service
 
         public DonoService(PetShopDbContext context)
         {
-            _context =  context;
+            _context = context;
         }
 
-       
         public void Cadastrar(Dono dono)
         {
             if (dono == null)
                 throw new ArgumentException("O dono não pode ser nulo.");
 
+            // Validações básicas
             if (string.IsNullOrWhiteSpace(dono.Nome))
                 throw new ArgumentException("O nome do dono é obrigatório.");
 
@@ -30,7 +35,7 @@ namespace PetShop.Service.Service
             if (string.IsNullOrWhiteSpace(dono.Senha))
                 throw new ArgumentException("A senha é obrigatória.");
 
-            // --- Cidade obrigatória ---
+            // --- Validação de Cidade ---
             if (dono.IdCidade <= 0)
                 throw new ArgumentException("A cidade é obrigatória.");
 
@@ -38,9 +43,12 @@ namespace PetShop.Service.Service
             if (!cidadeExiste)
                 throw new ArgumentException("A cidade informada não existe.");
 
-            // --- Email único ---
+            // --- Validação de Email Único ---
             if (_context.Donos.Any(d => d.Email == dono.Email))
                 throw new ArgumentException("Este email já está cadastrado.");
+
+            // CRIPTOGRAFIA: Hash da senha antes de salvar
+            dono.Senha = PasswordHelper.Hash(dono.Senha);
 
             _context.Donos.Add(dono);
             _context.SaveChanges();
@@ -54,9 +62,12 @@ namespace PetShop.Service.Service
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(senha))
                 return null;
 
+            // Gera o hash da senha informada para comparar com o banco
+            var senhaHash = PasswordHelper.Hash(senha);
+
             return _context.Donos
                 .Include(d => d.CidadeObj)
-                .FirstOrDefault(d => d.Email == email && d.Senha == senha);
+                .FirstOrDefault(d => d.Email == email && d.Senha == senhaHash);
         }
 
         // ===============================
@@ -87,7 +98,7 @@ namespace PetShop.Service.Service
         // ===============================
         // LISTAR TODOS
         // ===============================
-        public List<Dono> ListarDonos()
+        public List<Dono> ListarDonos() // Alterado para ListarDonos conforme sua interface original se necessário, ou Listar()
         {
             return _context.Donos
                 .Include(d => d.Pets)
@@ -153,6 +164,7 @@ namespace PetShop.Service.Service
             if (donoExistente == null)
                 throw new Exception("Dono não encontrado.");
 
+            // Atualiza os campos
             donoExistente.Nome = dono.Nome;
             donoExistente.Endereco = dono.Endereco;
             donoExistente.Telefone = dono.Telefone;
@@ -161,13 +173,15 @@ namespace PetShop.Service.Service
             donoExistente.Bairro = dono.Bairro;
             donoExistente.IdCidade = dono.IdCidade;
 
+            // Se a senha foi informada, criptografa e atualiza
             if (!string.IsNullOrWhiteSpace(dono.Senha))
-                donoExistente.Senha = dono.Senha;
+            {
+                donoExistente.Senha = PasswordHelper.Hash(dono.Senha);
+            }
 
             _context.SaveChanges();
         }
 
-       
         public void Remover(int id)
         {
             var dono = _context.Donos.Find(id);
